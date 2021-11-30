@@ -4,16 +4,18 @@ import {
   DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity('user')
+@Unique(['email'])
 export class User {
   @PrimaryGeneratedColumn('uuid')
   uuid: string;
 
   @Column()
-  fullname: string;
+  fullName: string;
 
   @Column()
   email: string;
@@ -21,7 +23,9 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
+  @Column({
+    default: true,
+  })
   is_ambassador: boolean;
 
   @CreateDateColumn({
