@@ -1,3 +1,4 @@
+import * as bcrypt from 'bcrypt';
 import {
   Column,
   CreateDateColumn,
@@ -15,13 +16,16 @@ export class User {
   uuid: string;
 
   @Column()
-  fullName: string;
+  fullname: string;
 
   @Column()
   email: string;
 
   @Column()
   password: string;
+
+  @Column()
+  salt: string;
 
   @Column({
     default: true,
@@ -42,4 +46,8 @@ export class User {
     type: 'timestamp',
   })
   deleted_at: Date;
+
+  async validatePassword(password: string): Promise<boolean> {
+    return await bcrypt.compare(password, this.password);
+  }
 }
